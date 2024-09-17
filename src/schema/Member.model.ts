@@ -1,58 +1,63 @@
-import mongoose, { Schema } from "mongoose";
-import { MemberStatus, MemberType} from "../libs/enums/member.enum";
+import mongoose, { Schema } from 'mongoose';
+import { MemberType, MemberStatus, MemberAuthType } from '../libs/enums/member.enum';
 
-const memberSchema = new Schema(
-    {
-        memberType: {
-            type: String,
-            enum: MemberType,
-            default: MemberType.USER,
-        },
 
-        memberStatus: {
-            type: String,
-            enum: MemberStatus,
-            default: MemberStatus.ACTIVE,
-        },
 
-        memberNick: {
-            type: String,
-            index: { unique: true, sparse: true},
-            required: true,
-        },
+const memberSchema = new Schema({
+    memberType: {
+        type: String,
+        enum: MemberType,
+        default: MemberType.USER,
+    },
 
-        memberPhone: {
-            type: String,
-            index: { unique: true, sparse: true},
-            required: true,
-        },
+    memberStatus: {
+        type: String,
+        enum: MemberStatus,
+        default: MemberStatus.ACTIVE,
+    },
 
-        memberPassword: {
-            type: String,
-            select: false,
-            required: true,
-        },
+    memberAuthType: {
+        type: String,
+        enum: MemberAuthType,
+        default: MemberAuthType.PHONE,
+    },
 
-        memberAdress: {
-            type: String,
-        },
+    memberNick: {
+        type: String,
+        index: { unique: true, sparse: true },
+        required: true,
+    },
 
-        memberDesc: {
-            type: String,
-        },
+    memberPhone: {
+        type: String,
+        index: { unique: true, sparse: true },
+        required: true,
+    },
 
-        memberImage: {
-            type: String,
-        },
+    memberPassword: {
+        type: String,
+        select: false,
+        requiredPaths: true,
+    },
 
-        memberPoints: {
-            type: Number,
-            default: 0,
-        },
-    }, 
-    { timestamps: true}   // CreatedAt and UpdatedAt
+    memberAddress: {
+        type: String,
+    },
+
+    memberDesc: {
+        type: String,
+    },
+
+    memberImage: {
+        type: String,
+    },
+
+    memberPoints: {
+        type: Number,
+        default: 0,
+    },
+},
+    { timestamps: true }
 );
 
-
-
-export default mongoose.model("Member", memberSchema);
+export default mongoose.model('Member', memberSchema);

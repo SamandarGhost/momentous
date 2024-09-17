@@ -6,22 +6,27 @@ export enum HttpCode {
     UNAUTHORIZED = 401,
     FORBIDDEN = 403,
     NOT_FOUND = 404,
-    INTERNAL_SERVER_ERROR 
-}    
+    INTERNAL_SERVER_ERROR = 500,
+};
 
 export enum Message {
-    SOMETHING_WENT_WRONG = "Something went wrong!",
-    NO_DATA_FOUND = "No data is found!",
-    CREATE_FAILED = "Create is failed!",
-    UPDATE_FAILED = "Update is failed!",
+    SOMETHING_WENT_WRONG = 'Somethinf went wrong!',
+    N0_DATA_FOUND = 'No data found!',
+    CREATE_FAILED = 'Create failed!',
+    UPDATE_FAILED = 'Update failed!',
+    REMOVE_FAILED = 'Remove failed!',
+    UPLOAD_FAILED = 'Upload failed!',
+    BAD_REQUEST = 'Bad Request',
+    USED_MEMBER_NICK_OR_PHONE = 'Already used member nick or phone!',
 
-    NO_MEMBER_NICK = "No member with that member nick!",
+    NO_MEMBER_NICK = 'No member with that member nick!',
+    BLOCKED_USER = 'You have been blocked!',
+    WRONG_PASSWORD = 'Wrong password, try again!',
+    NOT_AUTHENTICATED = 'You are not authenticated, please logi first!',
+    PROVIDE_ALLOWED_FORMAT = 'Please provide jpg, jpeg or png images!',
     TOKEN_CREATION_FAILED = "Token creation error!",
-    BLOCKED_USER = "You have been blocked, contact restaurant!",
-    USED_NICK_PHONE = "You are inserting already used nick or phone",
-    WRONG_PASSWORD = "Wrong password, please, try again!",
-    NOT_AUTHENTICATED = "You are not authenticated, Please login first",
-}
+    USED_NICK_PHONE = "USED_NICK_PHONE",
+};
 
 class Errors extends Error {
     public code: HttpCode;

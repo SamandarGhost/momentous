@@ -1,8 +1,8 @@
-import mongoose,  { Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { OrderStatus } from "../libs/enums/order.enum";
 
 
-const orderItemSchema = new Schema (
+const orderItemSchema = new Schema(
     {
         itemQuantity: {
             type: Number,

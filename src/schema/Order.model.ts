@@ -1,7 +1,7 @@
-import mongoose,  { Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { OrderStatus } from "../libs/enums/order.enum";
 
-const orderSchema = new Schema (
+const orderSchema = new Schema(
     {
         orderTotal: {
             type: Number,
@@ -18,7 +18,7 @@ const orderSchema = new Schema (
             enum: OrderStatus,
             default: OrderStatus.PAUSE,
         },
-        
+
         memberId: {
             type: Schema.Types.ObjectId,
             required: true,
@@ -26,6 +26,6 @@ const orderSchema = new Schema (
         },
     },
     { timestamps: true }
-); 
+);
 
 export default mongoose.model("Order", orderSchema);
