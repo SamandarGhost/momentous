@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { T } from "../libs/types/common";
 import MemberService from "../models/Member.service";
 import { AdminRequest, MemberInput } from "../libs/types/member";
@@ -10,39 +10,38 @@ import Errors, { HttpCode, Message } from "../libs/Errors";
 
 const memberService = new MemberService();
 
-const restaurantController: T = {};
-restaurantController.goHome = (req: Request, res: Response) => {
+const ownerController: T = {};
+ownerController.home = (req: Request, res: Response) => {
     try {
         console.log("goHome");
         res.render("Home");
-        // send | json | redirect | render
     } catch (err) {
         console.log("Error on Home Page:", err);
-        res.redirect("/admin");
+        res.redirect("/owner");
     }
 };
 
-restaurantController.getSignup = (req: Request, res: Response) => {
+ownerController.getSignup = (req: Request, res: Response) => {
     try {
         console.log("getSignup");
         res.render("Signup");
     } catch (err) {
         console.log("Error on Signup Page:", err);
-        res.redirect("/admin");
+        res.redirect("/owner");
     }
 };
 
-restaurantController.getLogin = (req: Request, res: Response) => {
+ownerController.getLogin = (req: Request, res: Response) => {
     try {
         console.log("getLogin");
         res.render("Login");
     } catch (err) {
         console.log("Error on Login Page:", err);
-        res.redirect("/admin");
+        res.redirect("/owner");
     }
 };
 
-restaurantController.processSignup = async (req: AdminRequest, res: Response) => {
+ownerController.signup = async (req: AdminRequest, res: Response) => {
     try {
         console.log("processSignup");
         const file = req.file;
@@ -56,7 +55,7 @@ restaurantController.processSignup = async (req: AdminRequest, res: Response) =>
 
         req.session.member = result;
         req.session.save(function () {
-            res.redirect("/admin/product/all");
+            res.redirect("/owner/product/all");
         });
 
 
@@ -64,11 +63,11 @@ restaurantController.processSignup = async (req: AdminRequest, res: Response) =>
         console.log("Error on processSignup Page:", err);
         const message =
             err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
-        res.send(`<script> alert("${message}"); window.location.replace("/admin/signup") </script>`);
+        res.send(`<script> alert("${message}"); window.location.replace("/owner/signup") </script>`);
     }
 };
 
-restaurantController.processLogin = async (req: AdminRequest, res: Response) => {
+ownerController.login = async (req: AdminRequest, res: Response) => {
     try {
         console.log("processLogin");
         const input: LoginInput = req.body;
@@ -76,7 +75,7 @@ restaurantController.processLogin = async (req: AdminRequest, res: Response) => 
 
         req.session.member = result;
         req.session.save(function () {
-            res.redirect("/admin/product/all");
+            res.redirect("/owner/product/all");
 
         });
 
@@ -86,23 +85,23 @@ restaurantController.processLogin = async (req: AdminRequest, res: Response) => 
         console.log("Error on processLogin Page:", err);
         const message =
             err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
-        res.send(`<script> alert("${message}"); window.location.replace("/admin/login") </script>`);
+        res.send(`<script> alert("${message}"); window.location.replace("/owner/login") </script>`);
     }
 };
 
-restaurantController.logout = async (req: AdminRequest, res: Response) => {
+ownerController.logout = async (req: AdminRequest, res: Response) => {
     try {
         console.log("LogOut");
         req.session.destroy(function () {
-            res.redirect("/admin");
+            res.redirect("/owner");
         })
     } catch (err) {
         console.log("Error on Login Page:", err);
-        res.redirect("/admin");
+        res.redirect("/owner");
     }
 };
 
-restaurantController.getUsers = async (req: Request, res: Response) => {
+ownerController.getUsers = async (req: Request, res: Response) => {
     try {
         console.log("getUsers");
         const result = await memberService.getUsers();
@@ -110,11 +109,11 @@ restaurantController.getUsers = async (req: Request, res: Response) => {
         res.render("users", { users: result });
     } catch (err) {
         console.log("Error on GetUsers:", err);
-        res.redirect("/admin/login");
+        res.redirect("/owner/login");
     }
 };
 
-restaurantController.updateChosenUser = async (req: Request, res: Response) => {
+ownerController.updateChosenUser = async (req: Request, res: Response) => {
     try {
         console.log("updateChosenUser");
         const result = await memberService.updateChosenUser(req.body);
@@ -127,7 +126,7 @@ restaurantController.updateChosenUser = async (req: Request, res: Response) => {
     }
 };
 
-restaurantController.checkAuthSession = async (req: AdminRequest, res: Response) => {
+ownerController.checkAuthSession = async (req: AdminRequest, res: Response) => {
     try {
         console.log("checkAuthsession");
         if (req.session?.member) res.send(`<script> alert("Hi, ${req.session.member.memberNick}") </script>`);
@@ -141,7 +140,7 @@ restaurantController.checkAuthSession = async (req: AdminRequest, res: Response)
     }
 };
 
-restaurantController.verifyRestaurant = (
+ownerController.login = (
     req: AdminRequest,
     res: Response,
     next: NextFunction
@@ -151,8 +150,8 @@ restaurantController.verifyRestaurant = (
         next();
     } else {
         const message = Message.NOT_AUTHENTICATED;
-        res.send(`<script> alert("${message}"); window.location.replace('/admin/login') </script>`);
+        res.send(`<script> alert("${message}"); window.location.replace('/owner/login') </script>`);
     }
 }
 
-export default restaurantController;
+export default ownerController;

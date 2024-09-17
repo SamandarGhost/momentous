@@ -1,7 +1,7 @@
 import cors from "cors";
 import express from "express";
 import path from 'path';
-import routerAdmin from "./router-admin";
+import owner from "./owner";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { MORGAN_FORMAT } from "./libs/config";
@@ -60,7 +60,7 @@ app.set("view engine", "ejs");
 
 
 /** 4 - ROUTERS**/
-app.use("/admin", routerAdmin);  // SSR: EJS
+app.use("/owner", owner);  // SSR: EJS
 
 
 
