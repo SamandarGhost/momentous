@@ -13,7 +13,7 @@ const memberService = new MemberService();
 const ownerController: T = {};
 ownerController.home = (req: Request, res: Response) => {
     try {
-        console.log("goHome");
+        console.log("home");
         res.render("Home");
     } catch (err) {
         console.log("Error on Home Page:", err);
@@ -55,7 +55,7 @@ ownerController.signup = async (req: AdminRequest, res: Response) => {
 
         req.session.member = result;
         req.session.save(function () {
-            res.redirect("/owner/product/all");
+            res.redirect("/owner");
         });
 
 
@@ -67,27 +67,24 @@ ownerController.signup = async (req: AdminRequest, res: Response) => {
     }
 };
 
-ownerController.login = async (req: AdminRequest, res: Response) => {
+ownerController.ownerLogin = async (req: AdminRequest, res: Response) => {
     try {
-        console.log("processLogin");
+        console.log('login');
         const input: LoginInput = req.body;
-        const result = await memberService.processLogin(input);
+        const result = await memberService.ownerLogin(input);
 
         req.session.member = result;
         req.session.save(function () {
-            res.redirect("/owner/product/all");
-
+            res.redirect('/owner');
         });
 
-
-
     } catch (err) {
-        console.log("Error on processLogin Page:", err);
+        console.log("Error on login Page:", err);
         const message =
             err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
         res.send(`<script> alert("${message}"); window.location.replace("/owner/login") </script>`);
     }
-};
+}
 
 ownerController.logout = async (req: AdminRequest, res: Response) => {
     try {

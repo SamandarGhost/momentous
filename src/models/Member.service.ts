@@ -134,7 +134,7 @@ class MemberService {
         }
     }
 
-    public async processLogin(input: LoginInput): Promise<Member> {
+    public async ownerLogin(input: LoginInput): Promise<Member> {
         const member = await this.memberModel
             .findOne(
                 { memberNick: input.memberNick },
