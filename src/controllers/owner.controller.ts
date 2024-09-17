@@ -110,10 +110,10 @@ ownerController.getUsers = async (req: Request, res: Response) => {
     }
 };
 
-ownerController.updateUser = async (req: Request, res: Response) => {
+ownerController.updateOwner = async (req: Request, res: Response) => {
     try {
         console.log("updateUser");
-        const result = await memberService.updateUser(req.body);
+        const result = await memberService.updateOwner(req.body);
 
         res.status(HttpCode.OK).json({ data: result });
     } catch (err) {

@@ -16,6 +16,6 @@ owner.get('/check-me', ownerController.checkAuthSession);
 /* User Routers */
 
 owner.get('/user/all', ownerController.verifyOwner, ownerController.getUsers);
-owner.post('/update-user', ownerController.verifyOwner, ownerController.updateUser);
+owner.post('/update-user', ownerController.verifyOwner, ownerController.updateOwner);
 
 export default owner;

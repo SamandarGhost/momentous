@@ -64,17 +64,16 @@ class MemberService {
         return result;
     }
 
-    public async getMemberDetail(member: Member): Promise<Member> {
+    public async getUserDetail(member: Member): Promise<Member> {
         const memberId = shapeIntoMongooseObjectId(member._id);
         const result = await this.memberModel.findOne({ _id: memberId, memberStatus: MemberStatus.ACTIVE })
-            .exec();
         if (!result)
             throw new Errors(HttpCode.NOT_FOUND, Message.N0_DATA_FOUND);
 
         return result;
     }
 
-    public async updateMember(member: Member, input: MemberUpdateInput): Promise<Member> {
+    public async updateUser(member: Member, input: MemberUpdateInput): Promise<Member> {
         const memberId = shapeIntoMongooseObjectId(member._id);
         const result = await this.memberModel.findOneAndUpdate({ _id: memberId }, input, { new: true })
             .exec();
@@ -160,7 +159,7 @@ class MemberService {
         return result;
     }
 
-    public async updateUser(input: MemberUpdateInput): Promise<Member> {
+    public async updateOwner(input: MemberUpdateInput): Promise<Member> {
         input._id = shapeIntoMongooseObjectId(input._id);
         const result = await this.memberModel.findByIdAndUpdate({ _id: input._id }, input, { new: true }).exec();
         if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.N0_DATA_FOUND);

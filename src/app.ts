@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import path from 'path';
 import owner from "./owner";
+import user from "./user";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { MORGAN_FORMAT } from "./libs/config";
@@ -60,7 +61,8 @@ app.set("view engine", "ejs");
 
 
 /** 4 - ROUTERS**/
-app.use("/owner", owner);  // SSR: EJS
+app.use('/owner', owner);  // SSR: EJS
+app.use('/', user);
 
 
 
