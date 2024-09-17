@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
-import { ProductGender, ProductStatus } from "../config";
 import { JewelryMaterial, JewelryType } from "../enums/jewelry.enum";
+import { ProductGender, ProductStatus } from "./common";
 
 
 export interface Jewelry {

@@ -41,7 +41,7 @@ ownerController.getLogin = (req: Request, res: Response) => {
     }
 };
 
-ownerController.signup = async (req: AdminRequest, res: Response) => {
+ownerController.ownerSingup = async (req: AdminRequest, res: Response) => {
     try {
         console.log("processSignup");
         const file = req.file;
@@ -51,7 +51,7 @@ ownerController.signup = async (req: AdminRequest, res: Response) => {
         const newMember: MemberInput = req.body;
         newMember.memberImage = file?.path.replace(/\\/g, "/");;
         newMember.memberType = MemberType.OWNER;
-        const result = await memberService.processSignup(newMember);
+        const result = await memberService.ownerSingup(newMember);
 
         req.session.member = result;
         req.session.save(function () {
@@ -110,14 +110,14 @@ ownerController.getUsers = async (req: Request, res: Response) => {
     }
 };
 
-ownerController.updateChosenUser = async (req: Request, res: Response) => {
+ownerController.updateUser = async (req: Request, res: Response) => {
     try {
-        console.log("updateChosenUser");
-        const result = await memberService.updateChosenUser(req.body);
+        console.log("updateUser");
+        const result = await memberService.updateUser(req.body);
 
         res.status(HttpCode.OK).json({ data: result });
     } catch (err) {
-        console.log("Error on updateChosenUser:", err);
+        console.log("Error on updateUser:", err);
         if (err instanceof Errors) res.status(err.code).json(err);
         else res.status(Errors.standard.code).json(Errors.standard);
     }
@@ -137,7 +137,7 @@ ownerController.checkAuthSession = async (req: AdminRequest, res: Response) => {
     }
 };
 
-ownerController.login = (
+ownerController.verifyOwner = (
     req: AdminRequest,
     res: Response,
     next: NextFunction

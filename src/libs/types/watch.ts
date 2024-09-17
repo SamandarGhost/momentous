@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
-import { ProductGender, ProductStatus } from "../config";
 import { WatchBrand, WatchFunc, WatchMov } from "../enums/watch.enum";
+import { ProductGender, ProductStatus } from "./common";
 
 
 export interface Watch {

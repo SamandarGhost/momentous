@@ -14,3 +14,14 @@ export enum Direction {
     ASC = 1,
     DESC = -1,
 };
+
+export enum ProductGender {
+    MAN = "MAN",
+    WOMAN = "WOMAN"
+};
+
+export enum ProductStatus {
+    HOLD = "HOLD",
+    ACTIVE = "ACTIVE",
+    SOLD = "SOLD"
+};

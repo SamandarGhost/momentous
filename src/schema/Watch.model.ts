@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import { WatchBrand, WatchFunc, WatchMov } from "../libs/enums/watch.enum";
-import { ProductGender, ProductStatus } from "../libs/config";
+import { ProductGender, ProductStatus } from "../libs/types/common";
 
 
 const watchSchema = new Schema(

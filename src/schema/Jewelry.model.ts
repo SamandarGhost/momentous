@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
-import { ProductGender, ProductStatus } from "../libs/config";
 import { JewelryMaterial, JewelryType } from "../libs/enums/jewelry.enum";
+import { ProductGender, ProductStatus } from "../libs/types/common";
 
 
 const jewelrySchema = new Schema(

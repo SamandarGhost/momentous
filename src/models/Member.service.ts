@@ -27,7 +27,6 @@ class MemberService {
     }
 
     public async login(input: LoginInput): Promise<Member> {
-        //  TODO: Consider member status later
         const member = await this.memberModel
             .findOne(
                 {
@@ -56,7 +55,7 @@ class MemberService {
             .exec();
     }
 
-    public async getRestaurant(): Promise<Member> {
+    public async getOwner(): Promise<Member> {
         const result = await this.memberModel.findOne({ memberType: MemberType.OWNER })
             .lean()
             .exec();
@@ -114,7 +113,7 @@ class MemberService {
     }
 
     // BSSR => Adminka
-    public async processSignup(input: MemberInput): Promise<Member> {
+    public async ownerSingup(input: MemberInput): Promise<Member> {
         const exist = await this.memberModel
             .findOne({ memberType: MemberType.OWNER })
             .exec();
@@ -161,7 +160,7 @@ class MemberService {
         return result;
     }
 
-    public async updateChosenUser(input: MemberUpdateInput): Promise<Member> {
+    public async updateUser(input: MemberUpdateInput): Promise<Member> {
         input._id = shapeIntoMongooseObjectId(input._id);
         const result = await this.memberModel.findByIdAndUpdate({ _id: input._id }, input, { new: true }).exec();
         if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.N0_DATA_FOUND);
