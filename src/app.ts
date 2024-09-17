@@ -1,7 +1,6 @@
 import cors from "cors";
 import express from "express";
 import path from 'path';
-import router from "./router";
 import routerAdmin from "./router-admin";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
@@ -22,7 +21,7 @@ const store = new MongoDBStore({
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static("./uploads"));
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
     credentials: true,
@@ -32,7 +31,7 @@ app.use(cookieParser());
 app.use(morgan(MORGAN_FORMAT));
 
 
-/** 2 - SESSIONS**/ 
+/** 2 - SESSIONS**/
 app.use(
     session({
         secret: String(process.env.SESSION_SECRET),
@@ -45,24 +44,23 @@ app.use(
     })
 );
 
-app.use(function(req, res, next) {
-    const  sessionInstance = req.session as T;
+app.use(function (req, res, next) {
+    const sessionInstance = req.session as T;
     res.locals.member = sessionInstance.member;
     next();
 })
 
 
 
-/** 3 - VIEWS**/ 
+/** 3 - VIEWS**/
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 
 
 
-/** 4 - ROUTERS**/ 
+/** 4 - ROUTERS**/
 app.use("/admin", routerAdmin);  // SSR: EJS
-app.use("/", router);            // SPA: REACT 
 
 
 
