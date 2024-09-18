@@ -23,5 +23,6 @@ export enum ProductGender {
 export enum ProductStatus {
     HOLD = "HOLD",
     ACTIVE = "ACTIVE",
-    SOLD = "SOLD"
+    SOLD = "SOLD",
+    DELETE = "DELETE",
 };

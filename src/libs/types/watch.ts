@@ -14,7 +14,7 @@ export interface Watch {
     watchPrice: number;
     watchDetail: string;
     watchDesc?: string;
-    productImages: string[];
+    watchImages: string[];
     watchViews: number;
     watchLikes: number;
     watchComments: number;
@@ -48,7 +48,7 @@ export interface WatchInput {
     watchComments?: number;
 }
 
-export interface ProductUpdateInput {
+export interface WatchUpdateInput {
     _id: ObjectId;
     watchStatus?: ProductStatus;
     watchBarnd?: WatchBrand;

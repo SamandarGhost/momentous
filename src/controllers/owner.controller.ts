@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { T } from "../libs/types/common";
 import MemberService from "../models/Member.service";
-import { AdminRequest, MemberInput } from "../libs/types/member";
+import { OwnerRequest, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
 import { LoginInput } from "../libs/types/member";
 import Errors, { HttpCode, Message } from "../libs/Errors";
@@ -41,7 +41,7 @@ ownerController.getLogin = (req: Request, res: Response) => {
     }
 };
 
-ownerController.ownerSingup = async (req: AdminRequest, res: Response) => {
+ownerController.ownerSingup = async (req: OwnerRequest, res: Response) => {
     try {
         console.log("processSignup");
         const file = req.file;
@@ -67,7 +67,7 @@ ownerController.ownerSingup = async (req: AdminRequest, res: Response) => {
     }
 };
 
-ownerController.ownerLogin = async (req: AdminRequest, res: Response) => {
+ownerController.ownerLogin = async (req: OwnerRequest, res: Response) => {
     try {
         console.log('login');
         const input: LoginInput = req.body;
@@ -86,7 +86,7 @@ ownerController.ownerLogin = async (req: AdminRequest, res: Response) => {
     }
 }
 
-ownerController.logout = async (req: AdminRequest, res: Response) => {
+ownerController.logout = async (req: OwnerRequest, res: Response) => {
     try {
         console.log("LogOut");
         req.session.destroy(function () {
@@ -123,7 +123,7 @@ ownerController.updateOwner = async (req: Request, res: Response) => {
     }
 };
 
-ownerController.checkAuthSession = async (req: AdminRequest, res: Response) => {
+ownerController.checkAuthSession = async (req: OwnerRequest, res: Response) => {
     try {
         console.log("checkAuthsession");
         if (req.session?.member) res.send(`<script> alert("Hi, ${req.session.member.memberNick}") </script>`);
@@ -138,7 +138,7 @@ ownerController.checkAuthSession = async (req: AdminRequest, res: Response) => {
 };
 
 ownerController.verifyOwner = (
-    req: AdminRequest,
+    req: OwnerRequest,
     res: Response,
     next: NextFunction
 ) => {

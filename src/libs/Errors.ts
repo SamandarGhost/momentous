@@ -10,7 +10,7 @@ export enum HttpCode {
 };
 
 export enum Message {
-    SOMETHING_WENT_WRONG = 'Somethinf went wrong!',
+    SOMETHING_WENT_WRONG = 'Something went wrong!',
     N0_DATA_FOUND = 'No data found!',
     CREATE_FAILED = 'Create failed!',
     UPDATE_FAILED = 'Update failed!',
@@ -22,7 +22,7 @@ export enum Message {
     NO_MEMBER_NICK = 'No member with that member nick!',
     BLOCKED_USER = 'You have been blocked!',
     WRONG_PASSWORD = 'Wrong password, try again!',
-    NOT_AUTHENTICATED = 'You are not authenticated, please logi first!',
+    NOT_AUTHENTICATED = 'You are not authenticated, please login first!',
     PROVIDE_ALLOWED_FORMAT = 'Please provide jpg, jpeg or png images!',
     TOKEN_CREATION_FAILED = "Token creation error!",
     USED_NICK_PHONE = "USED_NICK_PHONE",
