@@ -31,7 +31,6 @@ const jewelrySchema = new Schema(
 
         jewelryBrand: {
             type: String,
-            required: true,
         },
 
         jewelryLength: {

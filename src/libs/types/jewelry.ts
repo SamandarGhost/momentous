@@ -15,7 +15,7 @@ export interface Jewelry {
     jewelryName: string;
     jewelryPrice: number;
     jewelryDetail: string;
-    jewelryDesc?: string;
+    jewelryDesc: string;
     jewelryImages: string[];
     jewelryViews: number;
     jewelryLikes: number;
@@ -24,7 +24,7 @@ export interface Jewelry {
     updatedAt: Date;
 }
 
-export interface ProductInquiry {
+export interface JewelryInquiry {
     order: string;
     page: number;
     limit: number;
@@ -39,7 +39,7 @@ export interface JewelryInput {
     jewelryType: JewelryType;
     jewelryMaterial: JewelryMaterial;
     jewelryGender: ProductGender;
-    jewelryBrand: string;
+    jewelryBrand?: string;
     jewelryLength?: number;
     jewelrySize?: number;
     jewelryName: string;

@@ -52,10 +52,10 @@ watchController.getWatches = async (req: Request, res: Response) => {
 watchController.getAllWatch = async (req: Request, res: Response) => {
     try {
         console.log('getAllWatch');
-        const input: Watch[] = await watchService.getAllWatch();
+        const data: Watch[] = await watchService.getAllWatch();
 
         res.send('done');
-        // res.render('products', { watch: input });
+        // res.render('products', { watch: data });
     } catch (err) {
         console.log("Error, getAllWatch:", err);
         if (err instanceof Errors) res.status(err.code).json(err);
@@ -80,8 +80,7 @@ watchController.createWatch = async (req: OwnerRequest, res: Response) => {
         res.send(`<script> alert("Sucessful creation!"); window.location.replace("/owner/watch-all") </script>`);
     } catch (err) {
         console.log("Error, createNewProduct:", err);
-        const message =
-            err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+        const message = err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
         res.send(`<script> alert("${message}"); window.location.replace("/owner/watch-all") </script>`);
     }
 }
@@ -93,11 +92,11 @@ watchController.updateWatch = async (req: OwnerRequest, res: Response) => {
 
         const result = await watchService.updateWatch(watchId, req.body);
 
-        res.status(HttpCode.OK).json({ input: result });
+        res.status(HttpCode.OK).json({ data: result });
     } catch (err) {
         console.log("Error, updateWatch:", err);
-        if (err instanceof Errors) res.status(err.code).json(err);
-        else res.status(Errors.standard.code).json(Errors.standard);
+        const message = err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+        res.send(`<script> alert("${message}"); window.location.replace("/owner/watch-all") </script>`);
     }
 }
 
@@ -109,9 +108,9 @@ watchController.removeWatch = async (req: OwnerRequest, res: Response) => {
 
         res.send(`<script> alert("Sucessful removed!"); window.location.replace("/owner/watch-all") </script>`);
     } catch (err) {
-        console.log("Error, updateWatch:", err);
-        if (err instanceof Errors) res.status(err.code).json(err);
-        else res.status(Errors.standard.code).json(Errors.standard);
+        console.log("Error, removeWatch:", err);
+        const message = err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+        res.send(`<script> alert("${message}"); window.location.replace("/owner/watch-all") </script>`);
     }
 }
 

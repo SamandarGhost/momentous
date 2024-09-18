@@ -46,7 +46,7 @@ class WatchService {
     public async getWatch(memberId: ObjectId | null, _id: string): Promise<Watch> {
         const watchId = shapeIntoMongooseObjectId(_id);
 
-        let result = await this.watchModel.findOne({ _id: watchId, watchStatus: ProductStatus.ACTIVE });
+        const result = await this.watchModel.findOne({ _id: watchId, watchStatus: ProductStatus.ACTIVE });
         if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.N0_DATA_FOUND);
 
         if (memberId) {
@@ -69,7 +69,7 @@ class WatchService {
 
     public async getAllWatch(): Promise<Watch[]> {
         const result = await this.watchModel.find().exec();
-        if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+        if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.N0_DATA_FOUND);
         return result;
     }
 
