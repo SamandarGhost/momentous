@@ -16,10 +16,11 @@ user.get('/user/top-users', userController.getTopUsers);
 
 /* watch router */
 user.post('/watch/like/:id', userController.verifyAuth, watchController.likeWatch);
-
+user.post('/watch/save/:id', userController.verifyAuth, watchController.saveWatch);
 
 /* jewelry router */
 user.post('/jewelry/like/:id', userController.verifyAuth, jewelryController.likeJewelry);
+user.post('/jewelry/save/:id', userController.verifyAuth, jewelryController.saveJewelry);
 
 
 export default user;

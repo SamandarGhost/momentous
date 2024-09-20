@@ -17,23 +17,23 @@ class LikeService {
             memberId: input.memberId,
             likeRefId: input.likeRefId,
         };
-        const exist = await this.likeModel.findOne(search).exec();
+        const existLike = await this.likeModel.findOne(search).exec();
 
         let modifier = 1;
 
-        if (exist) {
+        if (existLike) {
             await this.likeModel.findOneAndDelete(search).exec();
             modifier = -1;
         } else {
             try {
                 await this.likeModel.create(input);
             } catch (err) {
-                console.log('Error, Service.model', err);
+                console.log('Error, likeService.model', err);
                 throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
             }
         }
 
-        console.log(`-LIKE modifier ${modifier}-`);
+        console.log(`Like modifier = ${modifier}`);
         return modifier;
     }
 

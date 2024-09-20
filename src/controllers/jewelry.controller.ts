@@ -64,6 +64,21 @@ jewelryController.likeJewelry = async (req: ExtendedRequest, res: Response) => {
     }
 }
 
+jewelryController.saveJewelry = async (req: ExtendedRequest, res: Response) => {
+    try {
+        console.log('saveJewelry');
+        const jewelryId = req.params.id;
+        const memberId = req.member?._id ?? null;
+        const result = await jewelryService.saveJewelry(memberId, jewelryId);
+
+        res.status(HttpCode.OK).json(result);
+    } catch (err) {
+        console.log('Error: saveJewelry');
+        if (err instanceof Errors) res.status(err.code).json(err);
+        else res.status(Errors.standard.code).json(Errors.standard);
+    }
+}
+
 jewelryController.getAllJewelry = async (req: Request, res: Response) => {
     try {
         console.log('getAllJewelry');

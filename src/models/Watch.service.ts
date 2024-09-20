@@ -11,16 +11,21 @@ import { ViewGroup } from "../libs/enums/view.enum";
 import { LikeInput } from "../libs/types/like";
 import { LikeGroup } from "../libs/enums/like.enum";
 import LikeService from "./Like.service";
+import SaveService from "./Save.service";
+import { SaveInput } from "../libs/types/save";
+import { SaveGroup } from "../libs/enums/save.enum";
 
 class WatchService {
     private readonly watchModel;
     public viewService: ViewService;
     public likeService: LikeService;
+    public saveService: SaveService;
 
     constructor() {
         this.watchModel = WatchModel;
         this.viewService = new ViewService();
         this.likeService = new LikeService();
+        this.saveService = new SaveService();
     }
 
     public async getWatches(inquiry: WatchInquiry): Promise<Watch[]> {
@@ -76,8 +81,8 @@ class WatchService {
         const watchId = shapeIntoMongooseObjectId(_id);
         const search: T = { _id: watchId, watchStatus: ProductStatus.ACTIVE };
 
-        const target = await this.watchModel.findOne(search).exec();
-        if (!target) throw new Errors(HttpCode.N0_DATA_FOUND, Message.N0_DATA_FOUND);
+        const watch = await this.watchModel.findOne(search).exec();
+        if (!watch) throw new Errors(HttpCode.N0_DATA_FOUND, Message.N0_DATA_FOUND);
 
         const input: LikeInput = {
             memberId: memberId,
@@ -88,6 +93,21 @@ class WatchService {
         const result = await this.watchStatsEditor({ _id: watchId, targetKey: 'watchLikes', modifier: modifier });
         if (!result) throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
         return result;
+    }
+
+    public async saveWatch(memberId: ObjectId, _id: string): Promise<boolean> {
+        const watchId = shapeIntoMongooseObjectId(_id);
+        const search: T = { _id: watchId, watchStatus: ProductStatus.ACTIVE };
+
+        const watch = await this.watchModel.findOne(search).exec();
+        if (!watch) throw new Errors(HttpCode.N0_DATA_FOUND, Message.N0_DATA_FOUND);
+
+        const input: SaveInput = {
+            memberId: memberId,
+            saveRefId: watchId,
+            saveGroup: SaveGroup.WATCH,
+        };
+        return await this.saveService.toggleSave(input);
     }
 
     public async getAllWatch(): Promise<Watch[]> {

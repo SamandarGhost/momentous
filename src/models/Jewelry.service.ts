@@ -12,17 +12,22 @@ import JewelryModel from "../schema/Jewelry.model";
 import { LikeInput } from "../libs/types/like";
 import { LikeGroup } from "../libs/enums/like.enum";
 import LikeService from "./Like.service";
+import { SaveInput } from "../libs/types/save";
+import { SaveGroup } from "../libs/enums/save.enum";
+import SaveService from "./Save.service";
 
 
 class JewelryService {
     private readonly jewelryModel;
     public viewService: ViewService;
     public likeService: LikeService;
+    public saveService: SaveService;
 
     constructor() {
         this.jewelryModel = JewelryModel;
         this.viewService = new ViewService();
         this.likeService = new LikeService();
+        this.saveService = new SaveService();
     }
 
     public async getJewelry(memberId: ObjectId | null, _id: string): Promise<Jewelry> {
@@ -72,8 +77,8 @@ class JewelryService {
         const jewelryId = shapeIntoMongooseObjectId(_id);
         const search: T = { _id: jewelryId, jewelryStatus: ProductStatus.ACTIVE };
 
-        const target = await this.jewelryModel.findOne(search).exec();
-        if (!target) throw new Errors(HttpCode.N0_DATA_FOUND, Message.N0_DATA_FOUND);
+        const jewelry = await this.jewelryModel.findOne(search).exec();
+        if (!jewelry) throw new Errors(HttpCode.N0_DATA_FOUND, Message.N0_DATA_FOUND);
 
         const input: LikeInput = {
             memberId: memberId,
@@ -84,6 +89,22 @@ class JewelryService {
         const result = await this.jewelryStatsEditor({ _id: jewelryId, targetKey: 'jewelryLikes', modifier: modifier });
         if (!result) throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
         return result;
+    }
+
+    public async saveJewelry(memberId: ObjectId, _id: string): Promise<boolean> {
+        const jewelryId = shapeIntoMongooseObjectId(_id);
+        const search: T = { _id: jewelryId, jewelryStatus: ProductStatus.ACTIVE };
+
+        const jewelry = await this.jewelryModel.findOne(search).exec();
+        if (!jewelry) throw new Errors(HttpCode.N0_DATA_FOUND, Message.N0_DATA_FOUND);
+
+        const input: SaveInput = {
+            memberId: memberId,
+            saveRefId: jewelryId,
+            saveGroup: SaveGroup.JEWELRY
+        };
+
+        return await this.saveService.toggleSave(input);
     }
 
     public async getAllJewelry(): Promise<Jewelry[]> {
