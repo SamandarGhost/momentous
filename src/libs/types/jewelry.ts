@@ -1,6 +1,8 @@
 import { ObjectId } from "mongoose";
 import { JewelryMaterial, JewelryType } from "../enums/jewelry.enum";
 import { ProductGender, ProductStatus } from "./common";
+import { MeLiked } from "./like";
+import { MeSaved } from "./save";
 
 
 export interface Jewelry {
@@ -22,6 +24,8 @@ export interface Jewelry {
     jewelryComments: number;
     createdAt: Date;
     updatedAt: Date;
+    meLikely?: MeLiked;
+    meSaved?: MeSaved;
 }
 
 export interface JewelryInquiry {

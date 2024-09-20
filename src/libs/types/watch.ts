@@ -1,6 +1,8 @@
 import { ObjectId } from "mongoose";
 import { WatchBrand, WatchFunc, WatchMov } from "../enums/watch.enum";
 import { ProductGender, ProductStatus } from "./common";
+import { MeLiked } from "./like";
+import { MeSaved } from "./save";
 
 
 export interface Watch {
@@ -20,6 +22,8 @@ export interface Watch {
     watchComments: number;
     createdAt: Date;
     updatedAt: Date;
+    meLikely?: MeLiked;
+    meSaved?: MeSaved;
 }
 
 export interface WatchInquiry {

@@ -1,11 +1,11 @@
 import mongoose, { Schema } from "mongoose";
-import { LikeGroup } from "../libs/enums/like.enum";
+import { SaveGroup } from "../libs/enums/save.enum";
 
-const likeSchema = new Schema(
+const saveSchema = new Schema(
     {
         likeGroup: {
             type: String,
-            enum: LikeGroup,
+            enum: SaveGroup,
             required: true,
         },
 
@@ -15,12 +15,12 @@ const likeSchema = new Schema(
             ref: "Member"
         },
 
-        likeRefId: {
+        saveRefId: {
             type: Schema.Types.ObjectId,
             required: true,
         },
     },
-    { timestamps: true }  // collection: "fixedName"
+    { timestamps: true }
 );
 
-export default mongoose.model("Like", likeSchema);
+export default mongoose.model("Save", saveSchema);

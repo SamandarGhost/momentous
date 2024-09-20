@@ -16,3 +16,9 @@ export interface LikeInput {
     likeRefId: ObjectId;
     likeGroup: LikeGroup;
 };
+
+export interface MeLiked {
+    memberId: ObjectId;
+    likeRefId: ObjectId;
+    myLikely: boolean;
+}
