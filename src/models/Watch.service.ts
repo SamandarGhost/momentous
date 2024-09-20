@@ -4,7 +4,7 @@ import { Watch } from "../libs/types/watch";
 import { ProductStatus, StatisticModifier, T } from "../libs/types/common";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { ObjectId } from "mongoose";
-import { shapeIntoMongooseObjectId } from "../libs/config";
+import { lookupUserLiked, lookupUserSaved, shapeIntoMongooseObjectId } from "../libs/config";
 import ViewService from "./View.service";
 import { ViewInput } from "../libs/types/view";
 import { ViewGroup } from "../libs/enums/view.enum";
@@ -28,7 +28,7 @@ class WatchService {
         this.saveService = new SaveService();
     }
 
-    public async getWatches(inquiry: WatchInquiry): Promise<Watch[]> {
+    public async getWatches(memberId: ObjectId, inquiry: WatchInquiry): Promise<Watch[]> {
         const match: T = { watchStatus: ProductStatus.ACTIVE };
 
         if (inquiry.watchBrand) match.watchBarnd = inquiry.watchBrand;
@@ -45,6 +45,8 @@ class WatchService {
                 { $sort: sort },
                 { $skip: (inquiry.page * 1 - 1) * inquiry.limit },
                 { $limit: inquiry.limit * 1 },
+                lookupUserLiked(memberId),
+                lookupUserSaved(memberId)
             ])
             .exec();
         if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.N0_DATA_FOUND);

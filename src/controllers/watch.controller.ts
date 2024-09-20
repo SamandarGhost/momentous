@@ -24,9 +24,10 @@ watchController.getWatch = async (req: ExtendedRequest, res: Response) => {
         else res.status(Errors.standard.code).json(Errors.standard);
     }
 };
-watchController.getWatches = async (req: Request, res: Response) => {
+watchController.getWatches = async (req: ExtendedRequest, res: Response) => {
     try {
         console.log("getWatches");
+        const memberId = req.member?._id ?? null;
         const { page, limit, order, watchBrand, watchGender, search } = req.query;
         const inquiry: WatchInquiry = {
             order: String(order),
@@ -38,7 +39,7 @@ watchController.getWatches = async (req: Request, res: Response) => {
         if (watchGender) { inquiry.watchGender = watchGender as ProductGender };
         if (search) inquiry.search = String(search);
 
-        const result = await watchService.getWatches(inquiry);
+        const result = await watchService.getWatches(memberId, inquiry);
 
         res.status(HttpCode.OK).json(result);
 

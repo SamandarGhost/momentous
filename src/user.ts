@@ -15,6 +15,7 @@ user.post('/user/update', userController.verifyAuth, makeUploader('members').sin
 user.get('/user/top-users', userController.getTopUsers);
 
 /* watch router */
+user.get('/watch/all', userController.retrieveAuth, watchController.getWatches);
 user.post('/watch/like/:id', userController.verifyAuth, watchController.likeWatch);
 user.post('/watch/save/:id', userController.verifyAuth, watchController.saveWatch);
 
