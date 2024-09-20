@@ -34,6 +34,7 @@ owner.post(
 );
 owner.post('/watch/update-watch/:id', ownerController.verifyOwner, watchController.updateWatch);
 owner.post('/watch/remove-watch/:id', ownerController.verifyOwner, watchController.removeWatch);
+owner.get('/watch/remove/all', ownerController.verifyOwner, watchController.removeAllWatch);
 
 /* Jewelry Routers */
 
@@ -46,6 +47,7 @@ owner.post(
 );
 owner.post('/watch/update-jewelry/:id', ownerController.verifyOwner, jewelryController.updateJewelry);
 owner.post('/watch/remove-jewelry/:id', ownerController.verifyOwner, jewelryController.removeJewelry);
+owner.get('/jewelry/remove/all', ownerController.verifyOwner, jewelryController.removeAllJewelry);
 
 
 export default owner;

@@ -144,4 +144,17 @@ watchController.removeWatch = async (req: OwnerRequest, res: Response) => {
     }
 }
 
+watchController.removeAllWatch = async (req: OwnerRequest, res: Response) => {
+    try {
+        console.log('removeAllWatch');
+        await watchService.removeAllWatch();
+
+        res.send(`<script> alert("Sucessful All Watch removed!"); window.location.replace("/owner/watch-all") </script>`);
+    } catch (err) {
+        console.log('Error, removeAllWatch');
+        const message = err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+        res.send(`<script> alert("${message}"); window.location.replace("/owner/watch-all") </script>`);
+    }
+}
+
 export default watchController;

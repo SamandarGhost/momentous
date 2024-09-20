@@ -140,9 +140,18 @@ jewelryController.removeJewelry = async (req: OwnerRequest, res: Response) => {
     }
 }
 
+jewelryController.removeAllJewelry = async (req: OwnerRequest, res: Response) => {
+    try {
+        console.log('removeAllJewelry');
+        await jewelryService.removeAllJewelry();
 
-
-
+        res.send(`<script> alert("Sucessful All removed!"); window.location.replace("/owner/jewelry-all") </script>`);
+    } catch (err) {
+        console.log('Error, removeAllJewelry');
+        const message = err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+        res.send(`<script> alert("${message}"); window.location.replace("/owner/jewelry-all") </script>`);
+    }
+}
 
 
 export default jewelryController;

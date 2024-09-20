@@ -138,6 +138,11 @@ class JewelryService {
         return result;
     }
 
+    public async removeAllJewelry(): Promise<void> {
+        const result = await this.jewelryModel.deleteMany({ jewelryStatus: ProductStatus.DELETE }).exec();
+        if (!result) throw new Errors(HttpCode.BAD_REQUEST, Message.REMOVE_FAILED);
+    }
+
     public async jewelryStatsEditor(input: StatisticModifier): Promise<Jewelry> {
         console.log('executed!');
         const { _id, targetKey, modifier } = input;

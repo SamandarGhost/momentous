@@ -140,6 +140,11 @@ class WatchService {
         return result;
     }
 
+    public async removeAllWatch(): Promise<void> {
+        const result = await this.watchModel.deleteMany({ watchStatus: ProductStatus.DELETE }).exec();
+        if (!result) throw new Errors(HttpCode.BAD_REQUEST, Message.REMOVE_FAILED);
+    }
+
     public async watchStatsEditor(input: StatisticModifier): Promise<Watch> {
         console.log('executed!');
 
