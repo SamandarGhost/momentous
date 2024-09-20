@@ -2,6 +2,8 @@ import express from "express";
 const user = express.Router();
 import makeUploader from "./libs/utilis/uploader";
 import userController from "./controllers/user.controller";
+import jewelryController from "./controllers/jewelry.controller";
+import watchController from "./controllers/watch.controller";
 
 /* User routers */
 user.get('/user/owner', userController.getOwner);
@@ -13,5 +15,11 @@ user.post('/user/update', userController.verifyAuth, makeUploader('members').sin
 user.get('/user/top-users', userController.getTopUsers);
 
 /* watch router */
+user.post('/watch/like/:id', userController.verifyAuth, watchController.likeWatch);
+
+
+/* jewelry router */
+user.post('/jewelry/like/:id', userController.verifyAuth, jewelryController.likeJewelry);
+
 
 export default user;

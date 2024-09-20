@@ -9,15 +9,20 @@ import { Message } from "../libs/Errors";
 import { ViewInput } from "../libs/types/view";
 import { ViewGroup } from "../libs/enums/view.enum";
 import JewelryModel from "../schema/Jewelry.model";
+import { LikeInput } from "../libs/types/like";
+import { LikeGroup } from "../libs/enums/like.enum";
+import LikeService from "./Like.service";
 
 
 class JewelryService {
     private readonly jewelryModel;
     public viewService: ViewService;
+    public likeService: LikeService;
 
     constructor() {
         this.jewelryModel = JewelryModel;
         this.viewService = new ViewService();
+        this.likeService = new LikeService();
     }
 
     public async getJewelry(memberId: ObjectId | null, _id: string): Promise<Jewelry> {
@@ -63,6 +68,24 @@ class JewelryService {
         return result;
     }
 
+    public async likeJewelry(memberId: ObjectId, _id: string): Promise<Jewelry> {
+        const jewelryId = shapeIntoMongooseObjectId(_id);
+        const search: T = { _id: jewelryId, jewelryStatus: ProductStatus.ACTIVE };
+
+        const target = await this.jewelryModel.findOne(search).exec();
+        if (!target) throw new Errors(HttpCode.N0_DATA_FOUND, Message.N0_DATA_FOUND);
+
+        const input: LikeInput = {
+            memberId: memberId,
+            likeRefId: jewelryId,
+            likeGroup: LikeGroup.JEWELRY,
+        };
+        const modifier: number = await this.likeService.toggleLike(input);
+        const result = await this.jewelryStatsEditor({ _id: jewelryId, targetKey: 'jewelryLikes', modifier: modifier });
+        if (!result) throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
+        return result;
+    }
+
     public async getAllJewelry(): Promise<Jewelry[]> {
         const result = await this.jewelryModel.find().exec();
         if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.N0_DATA_FOUND);
@@ -96,12 +119,10 @@ class JewelryService {
 
     public async jewelryStatsEditor(input: StatisticModifier): Promise<Jewelry> {
         console.log('executed!');
-
         const { _id, targetKey, modifier } = input;
-        return this.jewelryModel.findByIdAndUpdate(_id, { $inc: { [targetKey]: modifier } }, { new: true }).exec();
+        return await this.jewelryModel.findByIdAndUpdate(
+            _id, { $inc: { [targetKey]: modifier } }, { new: true }).exec();
     }
-
-
 }
 
 export default JewelryService;

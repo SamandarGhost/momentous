@@ -8,14 +8,19 @@ import { shapeIntoMongooseObjectId } from "../libs/config";
 import ViewService from "./View.service";
 import { ViewInput } from "../libs/types/view";
 import { ViewGroup } from "../libs/enums/view.enum";
+import { LikeInput } from "../libs/types/like";
+import { LikeGroup } from "../libs/enums/like.enum";
+import LikeService from "./Like.service";
 
 class WatchService {
     private readonly watchModel;
     public viewService: ViewService;
+    public likeService: LikeService;
 
     constructor() {
         this.watchModel = WatchModel;
         this.viewService = new ViewService();
+        this.likeService = new LikeService();
     }
 
     public async getWatches(inquiry: WatchInquiry): Promise<Watch[]> {
@@ -64,6 +69,24 @@ class WatchService {
                 await this.watchStatsEditor({ _id: watchId, targetKey: 'watchViews', modifier: 1 });
             }
         }
+        return result;
+    }
+
+    public async likeWatch(memberId: ObjectId, _id: string): Promise<Watch> {
+        const watchId = shapeIntoMongooseObjectId(_id);
+        const search: T = { _id: watchId, watchStatus: ProductStatus.ACTIVE };
+
+        const target = await this.watchModel.findOne(search).exec();
+        if (!target) throw new Errors(HttpCode.N0_DATA_FOUND, Message.N0_DATA_FOUND);
+
+        const input: LikeInput = {
+            memberId: memberId,
+            likeRefId: watchId,
+            likeGroup: LikeGroup.WATCH,
+        };
+        const modifier: number = await this.likeService.toggleLike(input);
+        const result = await this.watchStatsEditor({ _id: watchId, targetKey: 'watchLikes', modifier: modifier });
+        if (!result) throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
         return result;
     }
 
