@@ -1,10 +1,12 @@
+
 import { Request, Response } from "express";
 import { ProductGender, T } from "../libs/types/common";
 import { ExtendedRequest, OwnerRequest } from "../libs/types/member";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import WatchService from "../models/Watch.service";
 import { Watch, WatchInput, WatchInquiry } from "../libs/types/watch";
-import { WatchBrand } from "../libs/enums/watch.enum";
+import { WatchBrand, WatchFunc } from "../libs/enums/watch.enum";
+
 
 const watchService = new WatchService();
 
@@ -28,7 +30,8 @@ watchController.getWatches = async (req: ExtendedRequest, res: Response) => {
     try {
         console.log("getWatches");
         const memberId = req.member?._id ?? null;
-        const { page, limit, order, watchBrand, watchGender, search } = req.query;
+        const { page, limit, order, watchBrand, watchFunc, watchGender, search } = req.query;
+        console.log("req query:", req.query);
         const inquiry: WatchInquiry = {
             order: String(order),
             page: Number(page),
@@ -36,10 +39,13 @@ watchController.getWatches = async (req: ExtendedRequest, res: Response) => {
         };
 
         if (watchBrand) { inquiry.watchBrand = watchBrand as WatchBrand; };
+        if (watchFunc) { inquiry.watchFunc = watchFunc as WatchFunc; };
         if (watchGender) { inquiry.watchGender = watchGender as ProductGender };
         if (search) inquiry.search = String(search);
 
         const result = await watchService.getWatches(memberId, inquiry);
+        console.log("result", result);
+
 
         res.status(HttpCode.OK).json(result);
 

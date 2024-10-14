@@ -74,11 +74,6 @@ const jewelrySchema = new Schema(
             default: 0,
         },
 
-        jewelryComments: {
-            type: Number,
-            default: 0,
-        },
-
 
     },
     { timestamps: true }  // updateAt, createAt

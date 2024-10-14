@@ -21,7 +21,6 @@ export interface Jewelry {
     jewelryImages: string[];
     jewelryViews: number;
     jewelryLikes: number;
-    jewelryComments: number;
     createdAt: Date;
     updatedAt: Date;
     meLikely?: MeLiked;
@@ -53,7 +52,6 @@ export interface JewelryInput {
     jewelryImages: string[];
     jewelryViews?: number;
     jewelryLikes?: number;
-    jewelryComments?: number;
 }
 
 export interface JewelryUpdateInput {

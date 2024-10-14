@@ -8,20 +8,17 @@ export const shapeIntoMongooseObjectId = (target: any) => {
 };
 
 export const lookupUserLiked = (memberId: T, watchRefId: string = '$_id') => {
+    console.log("memberId", memberId);
+    console.log("watchRefId", watchRefId);
     return {
         $lookup: {
             from: 'likes',
-            let: {
-                localLikeRefId: watchRefId,
-                localMemberId: memberId,
-                localMyLike: true
-            },
             pipeline: [
                 {
                     $match: {
                         $expr: {
                             $and: [
-                                { $eq: ['$likeRefId', '$$localLikeRefId'] }, { $eq: ['$memberId', '$$localMemberId'] }
+                                { $eq: ['$likeRefId', watchRefId] }, { $eq: ['$memberId', memberId] }
                             ],
                         },
                     },
@@ -31,7 +28,7 @@ export const lookupUserLiked = (memberId: T, watchRefId: string = '$_id') => {
                         _id: 0,
                         memberId: 1,
                         likeRefId: 1,
-                        meLikely: '$$localMyLike',
+                        meLikely: true,
                     },
                 },
             ],

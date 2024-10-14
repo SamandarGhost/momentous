@@ -33,11 +33,17 @@ class WatchService {
 
         if (inquiry.watchBrand) match.watchBarnd = inquiry.watchBrand;
 
+        if (inquiry.watchFunc) match.watchFunc = inquiry.watchFunc;
+
         if (inquiry.watchGender) match.watchGender = inquiry.watchGender;
 
         if (inquiry.search) { match.watchName = { $regex: new RegExp(inquiry.search, "i") }; }
 
         const sort: T = inquiry.order === "watchPrice" ? { [inquiry.order]: 1 } : { [inquiry.order]: -1 };
+        console.log("memberId:", memberId);
+
+        console.log("watchMatch:", match);
+
 
         const result = await this.watchModel
             .aggregate([
@@ -50,6 +56,8 @@ class WatchService {
             ])
             .exec();
         if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.N0_DATA_FOUND);
+        console.log("result in service", result);
+
 
         return result;
 

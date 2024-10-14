@@ -15,8 +15,9 @@ const userController: T = {};
 userController.signup = async (req: Request, res: Response) => {
     try {
         console.log("Signup");
-        const input: MemberInput = req.body,
-            result: Member = await memberService.signup(input);
+        const input: MemberInput = req.body;
+        if (req.file) input.memberImage = req.file.path;
+        const result: Member = await memberService.signup(input);
         const token = await authService.createToken(result);
 
         res.cookie("acesstoken", token, {
@@ -95,7 +96,7 @@ userController.updateUser = async (req: ExtendedRequest, res: Response) => {
     try {
         console.log("updateUser");
         const input: MemberUpdateInput = req.body;
-        if (req.file) input.memberImage = req.file.path.replace(/\\/g, "/");
+        if (req.file) input.memberImage = req.file.path;
         const result = await memberService.updateUser(req.member, input);
 
         res.status(HttpCode.OK).json(result);
@@ -115,6 +116,8 @@ userController.getTopUsers = async (req: Request, res: Response) => {
         const result = await memberService.getTopUsers();
 
         res.status(HttpCode.OK).json(result);
+        console.log("getTopUsers", result);
+
     } catch (err) {
         console.log("Error, getTopUsers:", err);
         if (err instanceof Errors) res.status(err.code).json(err);
