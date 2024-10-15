@@ -20,7 +20,7 @@ userController.signup = async (req: Request, res: Response) => {
         const result: Member = await memberService.signup(input);
         const token = await authService.createToken(result);
 
-        res.cookie("acesstoken", token, {
+        res.cookie("accessToken", token, {
             maxAge: AUTH_TIMER * 3600 * 1000,
             httpOnly: false,
         });
