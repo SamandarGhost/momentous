@@ -28,40 +28,6 @@ class WatchService {
         this.saveService = new SaveService();
     }
 
-    public async getWatches(memberId: ObjectId, inquiry: WatchInquiry): Promise<Watch[]> {
-        const match: T = { watchStatus: ProductStatus.ACTIVE };
-
-        if (inquiry.watchBrand) match.watchBarnd = inquiry.watchBrand;
-
-        if (inquiry.watchFunc) match.watchFunc = inquiry.watchFunc;
-
-        if (inquiry.watchGender) match.watchGender = inquiry.watchGender;
-
-        if (inquiry.search) { match.watchName = { $regex: new RegExp(inquiry.search, "i") }; }
-
-        const sort: T = inquiry.order === "watchPrice" ? { [inquiry.order]: 1 } : { [inquiry.order]: -1 };
-        console.log("memberId:", memberId);
-
-        console.log("watchMatch:", match);
-
-
-        const result = await this.watchModel
-            .aggregate([
-                { $match: match },
-                { $sort: sort },
-                { $skip: (inquiry.page * 1 - 1) * inquiry.limit },
-                { $limit: inquiry.limit * 1 },
-                lookupUserLiked(memberId),
-                lookupUserSaved(memberId)
-            ])
-            .exec();
-        if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.N0_DATA_FOUND);
-        console.log("result in service", result);
-
-
-        return result;
-
-    }
 
     public async getWatch(memberId: ObjectId | null, _id: string): Promise<Watch> {
         const watchId = shapeIntoMongooseObjectId(_id);
@@ -85,6 +51,27 @@ class WatchService {
             }
         }
         return result;
+    };
+
+    public async getWatches(inquiry: WatchInquiry): Promise<Watch[]> {
+        const match: T = { watchStatus: ProductStatus.ACTIVE };
+        if (inquiry.watchGender) { match.watchGender = inquiry.watchGender };
+        if (inquiry.watchFunc) { match.watchFunc = inquiry.watchFunc };
+        if (inquiry.watchBrand) { match.watchBrand = inquiry.watchBrand };
+        if (inquiry.search) { match.watchName = { $regex: new RegExp(inquiry.search, "i") }; };
+
+        const sort: T = inquiry.order === 'watchPrice' ? { [inquiry.order]: 1 } : { [inquiry.order]: -1 };
+
+        const result = await this.watchModel.aggregate([
+            { $match: match },
+            { $sort: sort },
+            { $skip: (inquiry.page * 1 - 1) * inquiry.limit },
+            { $limit: inquiry.limit },
+        ]).exec();
+
+        if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.N0_DATA_FOUND);
+
+        return result
     }
 
     public async likeWatch(memberId: ObjectId, _id: string): Promise<Watch> {

@@ -27,12 +27,12 @@ export interface Watch {
 }
 
 export interface WatchInquiry {
-    order: string;
     page: number;
     limit: number;
+    order: string;
+    watchGender?: ProductGender;
     watchFunc?: WatchFunc;
     watchBrand?: WatchBrand;
-    watchGender?: ProductGender;
     search?: string;
 }
 
