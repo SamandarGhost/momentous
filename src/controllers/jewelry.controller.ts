@@ -4,7 +4,7 @@ import { ProductGender, T } from "../libs/types/common";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { ExtendedRequest, OwnerRequest } from "../libs/types/member";
 import { Jewelry, JewelryInput, JewelryInquiry } from "../libs/types/jewelry";
-import { JewelryType } from "../libs/enums/jewelry.enum";
+import { JewelryMaterial, JewelryType } from "../libs/enums/jewelry.enum";
 
 const jewelryService = new JewelryService();
 
@@ -28,14 +28,15 @@ jewelryController.getJewelry = async (req: ExtendedRequest, res: Response) => {
 jewelryController.getJeweleries = async (req: Request, res: Response) => {
     try {
         console.log('getJewelries');
-        const { page, limit, order, search, jewelryType, jewelryGender } = req.query;
+        const { page, limit, order, search, jewelryType, jewelryGender, jewelryMaterial } = req.query;
         const input: JewelryInquiry = {
             order: String(order),
             page: Number(page),
             limit: Number(limit),
         };
-        if (jewelryType) { input.jewelryType = jewelryType as JewelryType };
         if (jewelryGender) { input.jewelryGender = jewelryGender as ProductGender };
+        if (jewelryType) { input.jewelryType = jewelryType as JewelryType };
+        if (jewelryMaterial) { input.jewelryMaterial = jewelryMaterial as JewelryMaterial };
         if (search) input.search = String(search);
 
         const result = await jewelryService.getJewelries(input);

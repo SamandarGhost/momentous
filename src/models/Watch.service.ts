@@ -62,6 +62,7 @@ class WatchService {
 
         const sort: T = inquiry.order === 'watchPrice' ? { [inquiry.order]: 1 } : { [inquiry.order]: -1 };
 
+
         const result = await this.watchModel.aggregate([
             { $match: match },
             { $sort: sort },

@@ -56,9 +56,10 @@ class JewelryService {
 
     public async getJewelries(input: JewelryInquiry): Promise<Jewelry[]> {
         const match: T = { jewelryStatus: ProductStatus.ACTIVE };
-
-        if (input.jewelryType) match.jewelryType = input.jewelryType;
-        if (input.jewelryGender) match.jewelryGender = input.jewelryGender;
+        if (input.jewelryGender) { match.jewelryGender = input.jewelryGender };
+        if (input.jewelryType) { match.jewelryType = input.jewelryType };
+        if (input.jewelryMaterial) { match.jewelryMaterial = input.jewelryMaterial };
+        if (input.search) { match.jewelryName = { $regex: new RegExp(input.search, "i") } };
 
         const sort: T = input.order === 'jewelryPrice' ? { [input.order]: 1 } : { [input.order]: -1 };
 
