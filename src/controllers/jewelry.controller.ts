@@ -14,6 +14,8 @@ jewelryController.getJewelry = async (req: ExtendedRequest, res: Response) => {
     try {
         console.log('getJewelry');
         const { jewelryId } = req.params;
+        console.log("jewelryId:", jewelryId);
+
         const memberId = req.member?._id ?? null;
         const result = await jewelryService.getJewelry(memberId, jewelryId);
 
