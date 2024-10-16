@@ -2,7 +2,6 @@ import express from "express";
 const owner = express.Router();
 import makeUploader from "./libs/utilis/uploader";
 import ownerController from "./controllers/owner.controller";
-import watchController from "./controllers/watch.controller";
 import jewelryController from "./controllers/jewelry.controller";
 
 /* Owner Roters */
@@ -22,19 +21,6 @@ owner.get('/check-me', ownerController.checkAuthSession);
 
 owner.get('/user/all', ownerController.verifyOwner, ownerController.getUsers);
 owner.post('/update-user', ownerController.verifyOwner, ownerController.updateOwner);
-
-/* Watch Routers */
-
-owner.get('/watch-all', ownerController.verifyOwner, watchController.getAllWatch);
-owner.post(
-    '/watch/create',
-    ownerController.verifyOwner,
-    makeUploader('watches').array('watchImages', 10),
-    watchController.createWatch,
-);
-owner.post('/watch/update-watch/:id', ownerController.verifyOwner, watchController.updateWatch);
-owner.post('/watch/remove-watch/:id', ownerController.verifyOwner, watchController.removeWatch);
-owner.get('/watch/remove/all', ownerController.verifyOwner, watchController.removeAllWatch);
 
 /* Jewelry Routers */
 
