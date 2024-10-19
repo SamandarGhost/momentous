@@ -24,15 +24,15 @@ owner.post('/update-user', ownerController.verifyOwner, ownerController.updateOw
 
 /* Jewelry Routers */
 
-owner.get('/jewelry-all', ownerController.verifyOwner, jewelryController.getAllJewelry);
+owner.get('/jewelry/all', ownerController.verifyOwner, jewelryController.getAllJewelry);
 owner.post(
     '/jewelry/create',
     ownerController.verifyOwner,
     makeUploader('jewelries').array('jewelryImages', 10),
     jewelryController.createJewelry,
 );
-owner.post('/watch/update-jewelry/:id', ownerController.verifyOwner, jewelryController.updateJewelry);
-owner.post('/watch/remove-jewelry/:id', ownerController.verifyOwner, jewelryController.removeJewelry);
+owner.post('/jewelry/update-jewelry/:id', ownerController.verifyOwner, jewelryController.updateJewelry);
+owner.post('/jewelry/remove-jewelry/:id', ownerController.verifyOwner, jewelryController.removeJewelry);
 owner.get('/jewelry/remove/all', ownerController.verifyOwner, jewelryController.removeAllJewelry);
 
 

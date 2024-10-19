@@ -87,8 +87,7 @@ jewelryController.getAllJewelry = async (req: Request, res: Response) => {
         console.log('getAllJewelry');
         const data: Jewelry[] = await jewelryService.getAllJewelry();
 
-        res.send('Done');
-        // res.render('jewelry', {jewelry: data});
+        res.render('jewelry', { jewelry: data });
     } catch (err) {
         console.log('Error: getAllJewelry');
         if (err instanceof Errors) res.status(err.code).json(err);
