@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(-45deg, #110303bf, #e37813, #011c1aba, #968383);
+  background: linear-gradient(-45deg, #333333, #DD1818);
 }
 
 .users-container a {
@@ -17,6 +17,13 @@
 
 .users-container .nav-item a {
   color: #e3c08d;
+  font-family: "Roboto Serif";
+  font-size: 52px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: 5px;
+  text-wrap: nowrap;
 }
 
 .users-container .nav-item a.disabled {
@@ -74,12 +81,14 @@
 }
 
 .users-container .header-name {
-  font-family: "Source Serif Pro";
+  color: #fafafa;
+  font-family: "Roboto Serif";
+  font-size: 52px;
   font-style: normal;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 25px;
-  color: #ffffff;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: 5px;
+  text-wrap: nowrap;
 }
 
 .users-container select:focus {

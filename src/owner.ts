@@ -28,7 +28,7 @@ owner.get('/jewelry/all', ownerController.verifyOwner, jewelryController.getAllJ
 owner.post(
     '/jewelry/create',
     ownerController.verifyOwner,
-    makeUploader('jewelries').array('jewelryImages', 10),
+    makeUploader('jewelries').array('jewelryImages', 5),
     jewelryController.createJewelry,
 );
 owner.post('/jewelry/update-jewelry/:id', ownerController.verifyOwner, jewelryController.updateJewelry);

@@ -6,7 +6,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background: linear-gradient(-45deg, #333333, #DD1818);
   animation: gradient 15s ease infinite;
   -webkit-animation: gradient 15s ease infinite;
   background-size: 200% 200%;
@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  background: #ffffff;
+  background: #000000;
   padding: 25px;
 }
 
@@ -112,7 +112,7 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 18px;
-  color: #140342;
+  color: #ffffff;
 }
 
 .signup-container .file-box input[type="file"] {
@@ -150,7 +150,7 @@
   width: 85%;
   height: 55px;
   display: flex;
-  background: #ffffff;
+  background: #bababa;
   border: 1px solid #dddddd;
   border-radius: 8px 0px 0px 8px;
 }
@@ -162,7 +162,11 @@
   font-weight: 400;
   font-size: 15px;
   line-height: 26px;
-  color: #4f547b;
+  color: #ffffff;
+}
+
+.signup {
+  color: white;
 }
 
 /* Background animation */
@@ -170,9 +174,11 @@
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -182,9 +188,11 @@
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }

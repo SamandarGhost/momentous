@@ -1,9 +1,11 @@
 import Errors, { Message } from "../libs/Errors";
+import { ObjectId } from "mongoose";
 import { HttpCode } from "../libs/Errors";
 import LikeModel from "../schema/Like.model";
 import { LikeInput } from "../libs/types/like";
 import { T } from "../libs/types/common";
 import { MeLiked } from "../libs/types/like";
+import { Jewelry } from "../libs/types/jewelry";
 
 class LikeService {
     private readonly likeModel;
@@ -41,6 +43,26 @@ class LikeService {
         const { memberId, likeRefId } = input;
         const result = await this.likeModel.findOne({ memberId: memberId, likeRefId: likeRefId }).exec();
         return result ? [{ memberId: memberId, likeRefId: likeRefId, myLikely: true }] : [];
+    }
+
+    public async getMyLikely(memberId: ObjectId): Promise<Jewelry[]> {
+        const match: T = { memberId: memberId };
+
+        const result = await this.likeModel.aggregate([
+            { $match: match },
+            { $sort: { updatedAt: -1 } },
+            {
+                $lookup: {
+                    from: 'jewelries',
+                    localField: 'likeRefId',
+                    foreignField: '_id',
+                    as: 'favoriteJewelry'
+                },
+            },
+            { $unwind: '$favoriteJewelry' },
+        ]).exec();
+
+        return result;
     }
 }
 

@@ -16,9 +16,10 @@ user.get('/user/top-users', userController.getTopUsers);
 
 /* jewelry router */
 user.get('/jewelry', userController.retrieveAuth, jewelryController.getJeweleries);
-user.get('/jewelry/:jewelryId', userController.retrieveAuth, jewelryController.getJewelry);
-user.post('/jewelry/like/:jewelryId', userController.verifyAuth, jewelryController.likeJewelry);
-user.post('/jewelry/save/:jewelryId', userController.verifyAuth, jewelryController.saveJewelry);
+user.get('/jewelry/my-likely', userController.verifyAuth, jewelryController.getMyLikely);
+user.get('/jewelry/:id', userController.retrieveAuth, jewelryController.getJewelry);
+user.post('/jewelry/like/:id', userController.verifyAuth, jewelryController.likeJewelry);
+user.post('/jewelry/save/:id', userController.verifyAuth, jewelryController.saveJewelry);
 
 /* Order router */
 user.get('/order/my-orders', userController.verifyAuth, orderController.getMyOrders);

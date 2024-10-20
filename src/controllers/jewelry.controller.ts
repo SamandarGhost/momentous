@@ -12,10 +12,7 @@ const jewelryController: T = {};
 
 jewelryController.getJewelry = async (req: ExtendedRequest, res: Response) => {
     try {
-        console.log('getJewelry');
-        const { jewelryId } = req.params;
-        console.log("jewelryId:", jewelryId);
-
+        const jewelryId = req.params.id;
         const memberId = req.member?._id ?? null;
         const result = await jewelryService.getJewelry(memberId, jewelryId);
 
@@ -57,6 +54,7 @@ jewelryController.likeJewelry = async (req: ExtendedRequest, res: Response) => {
         console.log('likeJewelry');
         const jewelryId = req.params.id;
         const memberId = req.member?._id ?? null;
+
         const result = await jewelryService.likeJewelry(memberId, jewelryId);
 
         res.status(HttpCode.OK).json(result);
@@ -73,6 +71,20 @@ jewelryController.saveJewelry = async (req: ExtendedRequest, res: Response) => {
         const jewelryId = req.params.id;
         const memberId = req.member?._id ?? null;
         const result = await jewelryService.saveJewelry(memberId, jewelryId);
+
+        res.status(HttpCode.OK).json(result);
+    } catch (err) {
+        console.log('Error: saveJewelry');
+        if (err instanceof Errors) res.status(err.code).json(err);
+        else res.status(Errors.standard.code).json(Errors.standard);
+    }
+}
+
+jewelryController.getMyLikely = async (req: ExtendedRequest, res: Response) => {
+    try {
+        console.log('getMyLikely');
+        const memberId = req.member?._id ?? null;
+        const result = await jewelryService.getMyLikely(memberId);
 
         res.status(HttpCode.OK).json(result);
     } catch (err) {
@@ -105,7 +117,7 @@ jewelryController.createJewelry = async (req: OwnerRequest, res: Response) => {
 
         await jewelryService.createJewelry(input);
 
-        res.send(`<script> alert("Sucessful creation!"); window.location.replace("/owner/jewelry-all") </script>`);
+        res.send(`<script> alert("Sucessful creation!"); window.location.replace("/owner/jewelry/all") </script>`);
     } catch (err) {
         console.log('Error: createJewelry');
         const message = err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;

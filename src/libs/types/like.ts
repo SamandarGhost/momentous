@@ -4,7 +4,6 @@ import { ObjectId } from 'mongoose';
 
 export interface Like {
     _id: ObjectId;
-    likeGroup: LikeGroup;
     likeRefId: ObjectId;
     memberId: ObjectId;
     createdAt: Date;

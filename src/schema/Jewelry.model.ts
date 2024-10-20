@@ -41,6 +41,11 @@ const jewelrySchema = new Schema(
             type: Number,
         },
 
+        jewelryLeftCount: {
+            type: Number,
+            default: 0,
+        },
+
         jewelryName: {
             type: String,
             required: true,

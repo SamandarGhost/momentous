@@ -15,6 +15,7 @@ import LikeService from "./Like.service";
 import { SaveInput } from "../libs/types/save";
 import { SaveGroup } from "../libs/enums/save.enum";
 import SaveService from "./Save.service";
+import LikeModel from "../schema/Like.model";
 
 
 class JewelryService {
@@ -106,6 +107,10 @@ class JewelryService {
         };
 
         return await this.saveService.toggleSave(input);
+    }
+
+    public async getMyLikely(memberId: ObjectId): Promise<Jewelry[]> {
+        return await this.likeService.getMyLikely(memberId);
     }
 
     public async getAllJewelry(): Promise<Jewelry[]> {

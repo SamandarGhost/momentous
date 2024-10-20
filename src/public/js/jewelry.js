@@ -1,15 +1,5 @@
 console.log("Products frontend javascript file");
 $(function () {
-    $(".product-collection").on("change", () => {
-        const selectedValue = $(".product-collection").val();
-        if (selectedValue === "DRINK") {
-            $("#product-collection").hide();
-            $("#product-volume").show();
-        } else {
-            $("#product-volume").hide();
-            $("#product-collection").show();
-        }
-    });
 
     $("#process-btn").on("click", () => {
         $(".dish-container").slideToggle(500);
@@ -23,17 +13,17 @@ $(function () {
 
     $(".new-product-status").on("change", async function (e) {
         const id = e.target.id,
-         productStatus = $(`#${id}.new-product-status`).val();
+            jewelryStatus = $(`#${id}.new-product-status`).val();
 
         try {
-            const response = await axios.post(`/admin/product/${id}`, {
-                productStatus: productStatus,
+            const response = await axios.post(`/owner/jewelry/update-jewelry/${id}`, {
+                jewelryStatus: jewelryStatus,
             });
             console.log("response:", response);
             const result = response.data;
-             if(result.data) {
-                $(".new-product-status").blur();
-             } else alert(" Product update failed!");
+            if (result.data) {
+                $(".update-btn").blur();
+            } else alert(" Product update failed!");
         } catch (err) {
             console.log(err);
             alert(" Product update failed!");
@@ -41,17 +31,25 @@ $(function () {
     });
 });
 function validateForm() {
-    const productName = $(".product-name").val(),
-     productPrice = $(".product-prrice").val(),
-     productLeftCount = $(".product-left-count").val(),
-     productCollection = $(".product-collection").val(),
-     productDesc = $(".product-desc").val(),
-     productStatus = $(".product-status").val();
-    if(
-        productName === "" ||
-        productPrice === "" ||
-        productLeftCount === "" ||
-        productCollection === "" ||
+    const jewelryName = $(".product-name").val(),
+        jewelryPrice = $(".product-price").val(),
+        jewelryLeftCount = $(".product-left-count").val(),
+        jewelryType = $(".product-collection").val(),
+        jewelryGender = $(".product-gender").val(),
+        jewelryMaterial = $(".product-material").val(),
+        jewelryLength = $(".product-length").val(),
+        jewelrySize = $(".product-size").val(),
+        jewelryDetail = $(".product-detail").val(),
+        productDesc = $(".product-desc").val(),
+        productStatus = $(".product-status").val();
+    if (
+        jewelryName === "" ||
+        jewelryPrice === "" ||
+        jewelryLeftCount === "" ||
+        jewelryType === "" ||
+        jewelryGender === "" ||
+        jewelryMaterial === "" ||
+        jewelryDetail === "" ||
         productDesc === "" ||
         productStatus === ""
 
@@ -69,12 +67,12 @@ function previewFileHandler(input, order) {
     const fileType = file["type"];
     const validImageType = ["image/jpg", "image/jpeg", "image/png"];
 
-    if(!validImageType.includes(fileType)) {
+    if (!validImageType.includes(fileType)) {
         alert("Please insert only jpeg, jpg and png!");
     } else {
-        if(file) {
+        if (file) {
             const reader = new FileReader();
-            reader.onload = function() {
+            reader.onload = function () {
                 $(`#image-section-${order}`).attr("src", reader.result);
             };
             reader.readAsDataURL(file);
