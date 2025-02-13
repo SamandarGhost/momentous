@@ -19,6 +19,6 @@ pm2 start process.config.js --env production
 # git checkout develop
 # git pull origin develop
 
-npm i
-npm run build
-pm2 start "npm run start:dev" --name="MOMENTUM"
+# npm i
+# npm run build
+# pm2 start "npm run start:dev" --name="MOMENTUM"
