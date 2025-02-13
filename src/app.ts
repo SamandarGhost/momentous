@@ -6,7 +6,8 @@ import user from "./user";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { MORGAN_FORMAT } from "./libs/config";
-
+import { Server as SocketIOServer } from "socket.io";
+import http from "http"
 import session from "express-session";
 import ConnectMongoDB from "connect-mongodb-session";
 import { T } from "./libs/types/common";
@@ -64,6 +65,25 @@ app.set("view engine", "ejs");
 app.use('/owner', owner);  // SSR: EJS
 app.use('/', user);
 
+const server = http.createServer(app);
+const io = new SocketIOServer(server, {
+    cors: {
+        origin: true,
+        credentials: true,
+    },
+});
+
+let summaryClient = 0;
+io.on("connection", (socket) => {
+    summaryClient++;
+    console.log(`Connection & Total [${summaryClient}]`);
+
+    socket.on("disconnect", () => {
+        summaryClient--;
+        console.log(`Disconnection & Total [${summaryClient}]`);
+    })
+})
 
 
-export default app;    // module.exports = app;  bu holat ayni commanJsda ishlatardik, lekin ESJS da export default qilib ishlatamiz
+
+export default server;    // module.exports = app;  bu holat ayni commanJsda ishlatardik, lekin ESJS da export default qilib ishlatamiz

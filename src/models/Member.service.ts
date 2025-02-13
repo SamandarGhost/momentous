@@ -92,8 +92,6 @@ class MemberService {
             .limit(4)
             .exec();
         if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.N0_DATA_FOUND);
-        console.log("topUsers", result);
-
         return result;
 
     }
