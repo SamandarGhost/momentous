@@ -21,4 +21,4 @@ pm2 start process.config.js --env production
 
 # npm i
 # npm run build
-# pm2 start "npm run start:dev" --name="MOMENTUM"
+# pm2 start "npm run start:dev" --name=MOMENTUM
